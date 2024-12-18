@@ -1,2 +1,53 @@
+# Full Stack Team Project
 
-readme
+This is a collaborative full-stack project developed by a team of students. The project showcases expertise in frontend and backend technologies, including Angular, Spring Boot, and database integration. Each team member contributed to different modules, ensuring the project's success.
+
+---
+
+## 📋 Project Overview
+
+This project implements a comprehensive web application with features such as user authentication, role-based access, and administrative controls. It utilizes a modern technology stack, including:
+
+- **Frontend**: Angular
+- **Backend**: Spring Boot
+- **Database**: postgre Sql
+- **Security**: Spring Security
+
+---
+## 🚀 Features
+- User registration and login functionality.
+- Role-based access control (Admin, User).
+- Admin dashboard for managing users, job postings, and applications.
+- Secure API endpoints with Spring Security.
+
+---
+
+## 🧑‍💻 Team Contributions
+
+### **Backend Developer (Spring Boot & Security) **
+- Implemented Spring Boot backend services.
+- Configured **Spring Security** for user authentication and role-based access control.
+- Developed APIs for login, registration, and admin role management.
+- Secured admin functionality to ensure only authorized access.
+
+### Other Contributions
+- **Frontend Team**: Designed the user interface using Angular.
+- **Database Team**: Managed data storage and retrieval processes (if applicable).
+- **Deployment Team**: Handled the deployment of the application.
+
+---
+
+## 📂 Project Structure
+
+### **Frontend** (Angular)
+- Modules for user, admin, and authentication functionalities.
+
+### **Backend** (Spring Boot)
+- **Modules**:
+  - `AuthenticationController`: Handles login and registration.
+  - `AdminController`: Manages admin-specific features like user roles and job postings.
+- **Security Configurations**:
+  - Configured filters for user authorization.
+  - Implemented JWT-based token authentication.
+
+--
