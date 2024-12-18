@@ -1,0 +1,58 @@
+<!-- dashboard.component -->
+<div class="dashboard">
+  <!-- Overview Section -->
+  <div class="overview-section">
+    <mat-grid-list cols="4" rowHeight="1:1">
+      <mat-grid-tile>
+        <mat-card class="stat-card" matTooltip="Total number of companies">
+          <div class="card-content">
+            <mat-icon class="icon">business</mat-icon>
+            <div class="text-content">
+              <h3 id="companiesCount">{{ startCounts.startCompaniesCount }}</h3>
+              <p>Companies</p>
+            </div>
+          </div>
+        </mat-card>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-card class="stat-card" matTooltip="Total number of job postings">
+          <div class="card-content">
+            <mat-icon class="icon">work</mat-icon>
+            <div class="text-content">
+              <h3 id="jobPostingsCount">{{ startCounts.startJobPostingsCount }}</h3>
+              <p>Job Postings</p>
+            </div>
+          </div>
+        </mat-card>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-card class="stat-card" matTooltip="Total number of applications">
+          <div class="card-content">
+            <mat-icon class="icon">assignment</mat-icon>
+            <div class="text-content">
+              <h3 id="totalApplicationsCount">{{ startCounts.startTotalApplications }}</h3>
+              <p>Applications</p>
+            </div>
+          </div>
+        </mat-card>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-card class="stat-card" matTooltip="Total number of active users">
+          <div class="card-content">
+            <mat-icon class="icon">people</mat-icon>
+            <div class="text-content">
+              <h3 id="activeUsersCount">{{ startCounts.startActiveUsers }}</h3>
+              <p>Active Users</p>
+            </div>
+          </div>
+        </mat-card>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </div>
+
+  <!-- Charts Section -->
+  <div class="charts-section">
+    <div id="highchart-pie" class="chart"></div>
+    <div id="highchart-bar" class="chart"></div>
+  </div>
+</div>

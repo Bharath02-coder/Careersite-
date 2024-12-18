@@ -1,0 +1,81 @@
+<!-- Toolbar -->
+<mat-toolbar color="primary" class="mat-toolbar">
+  <button mat-icon-button (click)="toggleSidenav()">
+    <mat-icon>menu</mat-icon> 
+  </button>
+
+  <span class="brand-logo">HIRE ME📢</span>
+
+  <span class="spacer"></span>
+
+  <button mat-icon-button class="badge-button custom-badge" [matBadge]="unreadCount" matBadgeColor="warn" matBadgePosition="above after" (click)="toggleNotificationPanel()">
+    <mat-icon>notifications</mat-icon>
+  </button>
+  
+  <button mat-icon-button [matMenuTriggerFor]="userMenu">
+    <mat-icon>account_circle</mat-icon>
+  </button>
+  <mat-menu #userMenu="matMenu">
+    <button mat-menu-item (click)="logout()">Logout</button>
+  </mat-menu>
+</mat-toolbar>
+
+<!-- Sidenav and Content Layout -->
+<mat-drawer-container class="sidenav-container" color="primary" autosize>
+  <!-- Sidenav -->
+  <mat-drawer #drawer mode="side" [(opened)]="isSidenavOpened" class="sidenav" color="primary" position="start">
+    <mat-nav-list>
+      <button mat-button class="nav-button" routerLink="/user-dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <mat-icon>work</mat-icon>
+        <span *ngIf="isSidenavOpened">Jobs</span>
+      </button>
+      <button mat-button class="nav-button" routerLink="/application-status" routerLinkActive="active">
+        <mat-icon>assessment</mat-icon>
+        <span *ngIf="isSidenavOpened">Application Status</span>
+      </button>
+      <button mat-button class="nav-button" routerLink="/favorite-jobs" routerLinkActive="active">
+        <mat-icon>favorite</mat-icon>
+        <span *ngIf="isSidenavOpened">Favorite Jobs</span>
+      </button>
+      <button mat-button class="nav-button" routerLink="/user-profile" routerLinkActive="active">
+        <mat-icon>person</mat-icon>
+        <span *ngIf="isSidenavOpened">User Profile</span>
+      </button>
+    </mat-nav-list>
+  </mat-drawer>
+
+<!-- Notification Panel -->
+<mat-drawer #notificationPanel mode="over" position="end" class="notification-drawer" [opened]="isNotificationPanelOpened">
+  <mat-nav-list>
+    <ng-container *ngIf="notifications.length > 0; else noNotifications">
+      
+      <mat-list-item *ngFor="let notification of notifications" class="notification-item" [ngClass]="{'unread': !notification.isRead, 'read': notification.isRead}">
+        <div class="notification-content">
+          <mat-icon>info</mat-icon>
+          <span class="notification-message">{{ notification.message }}</span>
+          <span class="time-ago" style="margin-left: auto;">{{ notification.timeAgo }}</span>
+        </div>
+        <button mat-icon-button (click)="markAsRead(notification.id)">
+          <mat-icon>check_circle</mat-icon>
+        </button>
+      </mat-list-item>
+    </ng-container>
+
+ 
+    <ng-template #noNotifications>
+      <mat-list-item>
+        <div class="no-notifications-message">
+          <mat-icon>notifications_off</mat-icon>
+          <span>No new notifications</span>
+        </div>
+      </mat-list-item>
+    </ng-template>
+  </mat-nav-list>
+</mat-drawer>
+
+
+  <!-- Main Content -->
+  <mat-drawer-content class="sidenav-content">
+    <router-outlet></router-outlet>
+  </mat-drawer-content>
+</mat-drawer-container>

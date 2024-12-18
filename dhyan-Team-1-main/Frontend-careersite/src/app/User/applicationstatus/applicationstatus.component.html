@@ -1,0 +1,41 @@
+<div class="search-container">
+  <input type="text" placeholder="🔍Search by company or job title" [(ngModel)]="searchText" class="search-input">
+</div>
+
+<mat-card class="application-card" *ngFor="let application of applications | search: searchText: ['companyName', 'jobTitle']">
+  <mat-card-header>
+    <div class="status-container">
+      <div class="company-info">
+        <img [src]="application.companyLogoUrl" [alt]="application.companyName + ' Logo'" class="company-logo">
+
+        <mat-card-title-group>
+          <mat-card-title>{{ application.companyName }}</mat-card-title>
+          <mat-card-subtitle>{{ application.jobTitle }}</mat-card-subtitle>
+        </mat-card-title-group>
+      </div>
+      <span class="current-status" 
+      [ngClass]="{
+        'accepted': application.applicationStatus === 'ACCEPTED',
+        'rejected': application.applicationStatus === 'REJECTED',
+        'pending': application.applicationStatus === 'PENDING'
+      }"> {{ application.applicationStatus }}
+</span>
+    </div>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div class="progress-container">
+      <mat-progress-bar mode="determinate" [value]="getProgress(application)" color="primary"></mat-progress-bar>
+      <div class="progress-stages">
+        <div *ngFor="let stage of application.stages" class="stage" [ngClass]="{
+              'completed': stage.stageStatus === 'COMPLETED',
+              'pending': stage.stageStatus === 'PENDING',
+              'rejected': stage.stageStatus === 'REJECTED'
+            }">
+          <div class="stage-label">{{ stage.stageName }}</div>
+          <div class="stage-timestamp">{{ stage.completedAt ? (stage.completedAt | date: 'short') : 'Pending' }}</div>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

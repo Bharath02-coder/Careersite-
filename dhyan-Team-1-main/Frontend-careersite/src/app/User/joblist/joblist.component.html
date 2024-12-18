@@ -1,0 +1,122 @@
+<!-- Search Section -->
+<section class="search-section">
+  <h1 style="font-family: 'Cursive', sans-serif; font-size: 27px; font-weight: bold; color: #0c0000; font-style: italic;">
+    Your Dream Job Awaits - Apply Now!
+  </h1>
+  <input matInput type="text" class="search-bar" [(ngModel)]="searchText" placeholder="🔍 Search for jobs...">
+</section>
+
+<div class="main-content">
+  <div class="row">
+    <aside class="filter-sidebar">
+      <div class="filter-header">
+        <h3>Filter Jobs</h3>
+      </div>
+      <mat-form-field appearance="fill">
+        <mat-label>Location</mat-label>
+        <mat-select [(ngModel)]="selectedLocation">
+          <mat-option value="all">All Locations</mat-option>
+          <mat-option *ngFor="let location of locations" [value]="location">{{ location }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    
+      <mat-form-field appearance="fill">
+        <mat-label>Experience Level</mat-label>
+        <mat-select [(ngModel)]="selectedExperience">
+          <mat-option value="all">All Levels</mat-option>
+          <mat-option *ngFor="let experience of experienceLevels" [value]="experience">{{ experience }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    
+      <mat-form-field appearance="fill">
+        <mat-label>Job Type</mat-label>
+        <mat-select [(ngModel)]="selectedJobType">
+          <mat-option value="all">All Types</mat-option>
+          <mat-option *ngFor="let jobType of jobTypes" [value]="jobType">{{ jobType }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    
+      <mat-form-field appearance="fill">
+        <mat-label>Salary Range</mat-label>
+        <mat-select [(ngModel)]="selectedSalaryRange">
+          <mat-option value="all">All Ranges</mat-option>
+          <mat-option *ngFor="let salaryRange of salaryRanges" [value]="salaryRange">{{ salaryRange }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button mat-raised-button color="warn" (click)="resetFilters()" class="reset-button">
+        Reset Filters
+      </button>
+    </aside>
+    
+    <!-- Job Listings -->
+    <section class="job-listings">
+      <h2>Available Jobs</h2>
+      <div class="job-grid">
+        <mat-card *ngFor="let job of jobList | filter: selectedLocation : selectedExperience : selectedJobType : selectedSalaryRange | search:searchText:['jobTitle', 'companyName']" class="job-card" appearance="outlined">
+          <mat-card-header>
+            <mat-card-title-group>
+              <mat-card-title>{{ job.companyName }}</mat-card-title>
+              <mat-card-subtitle>{{ job.jobTitle }}</mat-card-subtitle>
+              <img mat-card-md-image [src]="job.companyLogoUrl" [alt]="job.companyName + ' Logo'">
+            </mat-card-title-group>
+          </mat-card-header>
+          <mat-card-content>
+            <p><strong>Location:</strong> {{ job.location }}</p>
+            <p><strong>Employment Type:</strong> {{ job.employmentType }}</p>
+            <p><strong>Salary Range:</strong> {{ job.salaryRange }} {{ job.currency }}</p>
+            <p><strong>Experience Level:</strong> {{ job.experienceLevel }}</p>
+            <p><strong>Last Date to Apply:</strong> {{ job.lastDateToApply }}</p>
+            <p><strong>Description:</strong> {{ job.jobDescription | slice: 0 : 50 }}...</p>
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-flat-button color="primary" (click)="openJobDetailsModal(job, $event)">View Details</button>
+            
+            <button mat-raised-button color="warn" [disabled]="job.isApplied" (click)="applyForJob(job.id)"
+              [ngClass]="{'applied': job.isApplied}">
+              {{ job.isApplied ? 'Applied' : 'Apply' }}
+            </button>
+            
+            <button mat-raised-button color="warn" *ngIf="job.isApplied && job.applicationStatus === 'PENDING'"
+              (click)="unapplyForJob(job.id)">
+              Unapply
+            </button>
+
+            <button mat-icon-button (click)="toggleFavorite(job.id)">
+              <mat-icon [ngClass]="{'favorite': job.isFavorite, 'non-favorite': !job.isFavorite}">
+                {{ job.isFavorite ? 'star' : 'star_outline' }}
+              </mat-icon>
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- Job Details Modal -->
+<mat-dialog-content class="modal" *ngIf="showJobDetailsModal">
+  <div class="modal-content">
+    <button mat-icon-button class="close-button" (click)="closeJobDetailsModal()">
+      <mat-icon>close</mat-icon>
+    </button>
+
+    <h2>{{ selectedJob?.jobTitle }}</h2>
+    <p><strong>Company Name:</strong> {{ selectedJob?.companyName }}</p>
+    <p><strong>Location:</strong> {{ selectedJob?.location }}</p>
+    <p><strong>Employment Type:</strong> {{ selectedJob?.employmentType }}</p>
+    <p><strong>Description:</strong> {{ selectedJob?.jobDescription }}</p>
+    <p><strong>Requirements:</strong> {{ selectedJob?.requirements }}</p>
+    <p><strong>Category:</strong> {{ selectedJob?.jobCategory }}</p>
+    <p><strong>Experience Level:</strong> {{ selectedJob?.experienceLevel }}</p>
+    <p><strong>Education Requirement:</strong> {{ selectedJob?.educationRequirement }}</p>
+    <p><strong>Skills:</strong> {{ selectedJob?.skills }}</p>
+    <p><strong>Last Date to Apply:</strong> {{ selectedJob?.lastDateToApply }}</p>
+    <p><strong>Salary Range:</strong> {{ selectedJob?.salaryRange }} {{ selectedJob?.currency }}</p>
+    <p><strong>Contact Email:</strong> {{ selectedJob?.contactEmail }}</p>
+    <p *ngIf="selectedJob?.contactPhone"><strong>Contact Phone:</strong> {{ selectedJob?.contactPhone }}</p>
+    <p><strong>Benefits:</strong> {{ selectedJob?.benefits }}</p>
+    <p><strong>Application Process:</strong> {{ selectedJob?.applicationProcess }}</p>
+    <p><strong>Company Website:</strong> <a [href]="selectedJob?.companyWebsite" target="_blank">{{ selectedJob?.companyWebsite }}</a></p>
+    <p><strong>Job Location Type:</strong> {{ selectedJob?.jobLocationType }}</p>
+  </div>
+</mat-dialog-content>
